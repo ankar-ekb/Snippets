@@ -1,7 +1,8 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
 from MainApp.models import Snippet
-
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseNotFound
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
@@ -21,5 +22,15 @@ def snippets_page(request):
         }
     return render(request, 'pages/view_snippets.html', context)
 
-def snippet_detail(request):
-    pass
+def snippet_detail(request, id):
+    snippet = Snippet.objects.get(id=id)
+    # except ObjectDoesNotExist:
+    #     return HttpResponseNotFound(f'Товар c id = {id} не найден')
+    # items = Item.objects.all()
+    # for item in items:
+    #     if item.id == id:
+    context = {
+        "pagename": "Просмотр сниппета",
+        "snippet": snippet
+    }
+    return render(request, "pages/snippet_detail.html", context)
