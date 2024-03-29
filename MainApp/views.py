@@ -57,3 +57,9 @@ def snippet_detail(request, id):
 #         snippet = Snippet(name=name, lang=lang, code=code)
 #         snippet.save()
 #         return redirect('snippets-list')
+
+def snippet_delete(request, id):
+    snippet = Snippet.objects.get(id=id)
+    snippet.delete()
+    return redirect('snippets-list')
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER')) -- Перенаправление на ту же страницуЁ с которой пришел запрос
